@@ -1,0 +1,17 @@
+# Informe de limpieza Itau
+- Filas procesadas: 4
+- Filas rechazadas (incompletas): 0
+- Encabezados corregidos: 0
+- Valores normalizados (texto/codificación): 0
+- Arreglos comunes (comunas/direcciones): 0
+- Fechas normalizadas: 0
+- Campos enteros/monetarios normalizados: 0
+- Tasas normalizadas: 0
+- RUT/DV normalizados: 0
+- RUT con DV inconsistente: 0
+- Apoderado 1 corregido: 4
+- Apoderado 2 corregido: 4
+- Merges con debug (aciertos): 0
+- Merges con debug (sin coincidencia): 0
+- Montos negativos detectados (antes de normalizar): 0
+- Comunas inválidas detectadas: 0

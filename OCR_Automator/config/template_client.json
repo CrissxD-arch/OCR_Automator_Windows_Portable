@@ -1,0 +1,23 @@
+{
+  "client_name": "NombreCliente",
+  "pdf_path": "pdfs/NombreCliente/",
+  "result_path": "outputs/NombreCliente/",
+  "excel_base": "referencias/nombre_base.xls",
+  "poppler_path": "C:\\poppler\\Library\\bin",
+  "tesseract_cmd": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+  "tesseract_lang": "spa",
+  "fuzzy_threshold": 85,
+  "regex": {
+    "operacion": "Op[:\\s]*([0-9]{6,})",
+    "monto": "la cantidad de\\s*\\$?\\s*([0-9\\.,]+)",
+    "rut": "RUT[:\\s]*([0-9\\.\\-Kk]+)",
+    "nombre": "Nombre Deudor[:\\s]*([A-ZÑÁÉÍÓÚ\\s]+)",
+    "direccion": "(AVDA|CALLE|PASEO|N°|NRO|PISO|DEPARTAMENTO)[^\\n,]{2,}",
+    "cuotas": "EN\\s+(\\d{1,3})\\s+CUOTAS",
+    "mpc": "IGUALES DE\\s*\\$\\s*([0-9\\.,]+)",
+    "muc": "UNA ÚLTIMA DE \\$\\s*([0-9\\.,]+)",
+    "fpv": "A CONTAR DEL\\s+(.+?\\d{4})",
+    "fuv": "VENCIMIENTO\\s+EL\\s+(.+?\\d{4})",
+    "interes": "INTER[ÉE]S(?:.*?)DEL\\s+([0-9\\.,]+)\\s*%"
+  }
+}

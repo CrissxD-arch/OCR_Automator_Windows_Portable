@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Subir PDFs{% endblock %}
+{% block content %}
+  <header class="topbar">
+    <div class="brand">OCR Automator</div>
+    <div class="user">Hola {{ user }} · <a href="{{ url_for('results') }}">Resultados</a> · <a href="{{ url_for('logout') }}">Salir</a></div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h1 class="title">Procesar Pagarés / Créditos (PP/CC)</h1>
+      <p class="muted">Sube uno o varios PDFs. Al terminar, se descargará un Excel con los resultados.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" enctype="multipart/form-data" class="form">
+        <label class="label">Selecciona PDF(s)</label>
+        <input type="file" name="pdfs" accept="application/pdf" multiple>
+
+  <div class="label">Cliente/Banco</div>
+  <label class="checkbox"><input type="radio" name="bank" value="itau" {% if (selected_bank or 'itau') == 'itau' %}checked{% endif %}> Itaú</label>
+  <label class="checkbox"><input type="radio" name="bank" value="santander" {% if (selected_bank or 'itau') == 'santander' %}checked{% endif %}> Santander</label>
+
+        <label class="checkbox">
+          <input type="checkbox" name="geocode"> Usar geocodificación (mejora dirección/comuna)
+        </label>
+
+        <div class="label">Calidad OCR</div>
+        <label class="checkbox"><input type="radio" name="quality" value="fast"> Rápida (150 DPI)</label>
+        <label class="checkbox"><input type="radio" name="quality" value="standard"> Estándar (200 DPI)</label>
+        <label class="checkbox"><input type="radio" name="quality" value="high" checked> Alta (300 DPI)</label>
+
+        <button type="submit" class="btn primary">Procesar</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

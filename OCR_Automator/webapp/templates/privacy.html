@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Política de privacidad{% endblock %}
+{% block content %}
+<header class="topbar">
+  <div class="brand">OCR Automator</div>
+  <div class="user"><a href="{{ url_for('upload') }}">Volver</a></div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h1 class="title">Política de privacidad</h1>
+    <p>
+      Este sitio procesa los PDFs que usted carga para extraer datos de forma automatizada.
+      Los archivos se almacenan temporalmente durante el procesamiento y se eliminan al finalizar.
+    </p>
+    <ul>
+      <li>Los resultados (Excel y logs) se guardan en el servidor local bajo <code>outputs/&lt;Banco&gt;/web</code>.</li>
+      <li>Se utiliza una cookie de sesión para el inicio de sesión; no se emplea seguimiento publicitario.</li>
+      <li>Si activa la geocodificación, se enviarán direcciones a Nominatim/OSM, sujeto a sus políticas.</li>
+      <li>Puede solicitar la eliminación de resultados conservados en <code>outputs/</code> en cualquier momento.</li>
+    </ul>
+    <p>
+      Para dudas o solicitudes de datos, contacte al administrador del servidor donde corre esta aplicación.
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Resultados{% endblock %}
+{% block content %}
+  <header class="topbar">
+    <div class="brand">OCR Automator</div>
+    <div class="user"><a href="{{ url_for('upload') }}">Volver</a> · <a href="{{ url_for('logout') }}">Salir</a></div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h1 class="title">Resultados recientes</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if last_excel %}
+        <p class="muted">Última ejecución ({{ 'Itaú' if (last_bank or 'itau') == 'itau' else 'Santander' }}):</p>
+        <p>
+          <a class="btn primary" href="{{ url_for('download', bank=(last_bank or 'itau'), filename=last_excel) }}">Descargar Excel</a>
+          {% if last_debug %}
+            <a class="btn" href="{{ url_for('download', bank=(last_bank or 'itau'), filename=last_debug) }}">Descargar Debug</a>
+          {% endif %}
+        </p>
+        <hr style="border-color:#25346a; margin:16px 0;">
+      {% endif %}
+
+      <h2 class="title" style="font-size:18px; margin-top:0;">Itaú</h2>
+      {% if items_itau %}
+        <ul>
+          {% for it in items_itau %}
+            <li style="margin:8px 0;">
+              <strong>{{ it.mtime }}</strong>
+              — Excel: <a href="{{ url_for('download', bank='itau', filename=it.excel) }}">{{ it.excel }}</a>
+              {% if it.debug %}
+                — Debug: <a href="{{ url_for('download', bank='itau', filename=it.debug) }}">{{ it.debug }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No hay resultados Itaú todavía.</p>
+      {% endif %}
+
+      <hr style="border-color:#25346a; margin:16px 0;">
+
+      <h2 class="title" style="font-size:18px;">Santander</h2>
+      {% if items_santander %}
+        <ul>
+          {% for it in items_santander %}
+            <li style="margin:8px 0;">
+              <strong>{{ it.mtime }}</strong>
+              — Excel: <a href="{{ url_for('download', bank='santander', filename=it.excel) }}">{{ it.excel }}</a>
+              {% if it.debug %}
+                — Debug: <a href="{{ url_for('download', bank='santander', filename=it.debug) }}">{{ it.debug }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No hay resultados Santander todavía.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Términos de uso{% endblock %}
+{% block content %}
+<header class="topbar">
+  <div class="brand">OCR Automator</div>
+  <div class="user"><a href="{{ url_for('upload') }}">Volver</a></div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h1 class="title">Términos de uso</h1>
+    <p class="muted">Última actualización: {{ ("now"|datetime) if false else '' }}</p>
+    <p>
+      Este sitio procesa documentos PDF mediante OCR para extraer datos y generar archivos de resultados.
+      Usted es responsable del contenido que carga y de contar con las autorizaciones necesarias.
+    </p>
+    <ul>
+      <li>Los archivos se procesan temporalmente y se eliminan tras finalizar el proceso.</li>
+      <li>Los resultados se guardan localmente en su servidor bajo la carpeta <code>outputs/</code>.</li>
+      <li>El servicio se entrega "tal cual" sin garantías; verifique los resultados antes de usarlos.</li>
+      <li>El uso de geocodificación utiliza servicios de terceros (Nominatim/OSM) sujetos a sus <a href="https://operations.osmfoundation.org/policies/nominatim/" target="_blank" rel="noopener">políticas de uso</a>.</li>
+    </ul>
+    <p>
+      Terceros: Tesseract OCR (Apache 2.0), Poppler (GPL) y otros componentes externos cuentan con sus propias licencias.
+      Consulte el archivo <a href="{{ url_for('download', bank='itau', filename='..') if false else '#' }}">THIRD_PARTY_NOTICES.md</a> en el repositorio.
+    </p>
+  </div>
+</div>
+{% endblock %}

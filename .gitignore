@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environments
+.venv/
+.env/
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local outputs & temp
+OCR_Automator/outputs/
+OCR_Automator/RI*/
+web_uploads/
+
+# PDFs with sensitive data (keep out of repo)
+OCR_Automator/pdfs/
+
+# Logs
+*.log
+*.tmp
+*.bak
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
