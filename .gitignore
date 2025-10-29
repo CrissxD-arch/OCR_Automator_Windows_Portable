@@ -18,10 +18,12 @@ Thumbs.db
 # Local outputs & temp
 OCR_Automator/outputs/
 OCR_Automator/RI*/
+RI*/
 web_uploads/
 
 # PDFs with sensitive data (keep out of repo)
 OCR_Automator/pdfs/
+OCR_Automator/config/web_config.json
 
 # Logs
 *.log
