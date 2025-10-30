@@ -12,6 +12,7 @@ sys.path.append(str(BASE_DIR))
 
 from process_itau_unified_v1 import process_pdf_files as process_itau_files
 from process_santander_unified_v1 import process_pdf_files as process_santander_files
+from process_indisa_unified_v1 import process_pdf_files as process_indisa_files
 
 app = Flask(__name__)
 # Secret key for sessions - override with env var in production
@@ -98,13 +99,16 @@ def upload():
             if bank == "santander":
                 out_dir = BASE_DIR / "outputs" / "Santander" / "web"
                 excel_path, debug_path = process_santander_files(pdf_paths, geocode=geocode_flag, output_dir=str(out_dir), dpi=dpi_val)
+            elif bank == "indisa":
+                out_dir = BASE_DIR / "outputs" / "Indisa" / "web"
+                excel_path, debug_path = process_indisa_files(pdf_paths, geocode=geocode_flag, output_dir=str(out_dir), dpi=dpi_val)
             else:
                 out_dir = BASE_DIR / "outputs" / "Itau" / "web"
                 excel_path, debug_path = process_itau_files(pdf_paths, geocode=geocode_flag, output_dir=str(out_dir), dpi=dpi_val)
             # Redirigir a resultados para ofrecer enlaces a Excel y Debug
             session["last_result_excel"] = excel_path
             session["last_result_debug"] = debug_path
-            session["last_result_bank"] = "santander" if bank == "santander" else "itau"
+            session["last_result_bank"] = ("santander" if bank == "santander" else ("indisa" if bank == "indisa" else "itau"))
             session["last_bank"] = session["last_result_bank"]
             flash("Procesamiento completado. Descarga disponible abajo.", "info")
             return redirect(url_for("results"))
@@ -125,8 +129,10 @@ def upload():
 def results():
     base_itau = BASE_DIR / "outputs" / "Itau" / "web"
     base_sant = BASE_DIR / "outputs" / "Santander" / "web"
+    base_indisa = BASE_DIR / "outputs" / "Indisa" / "web"
     base_itau.mkdir(parents=True, exist_ok=True)
     base_sant.mkdir(parents=True, exist_ok=True)
+    base_indisa.mkdir(parents=True, exist_ok=True)
 
     # Buscar archivos recientes Itau
     excels_itau = sorted(base_itau.glob("Itau_results_UNIFIED_*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -154,6 +160,19 @@ def results():
             "mtime": datetime.fromtimestamp(x.stat().st_mtime).strftime("%d-%m-%Y %H:%M")
         })
 
+    # Buscar archivos recientes Indisa
+    excels_indisa = sorted(base_indisa.glob("Indisa_results_UNIFIED_*.xlsx"), key=lambda p: p.stat().st_mtime, reverse=True)
+    items_indisa = []
+    for x in excels_indisa[:20]:
+        ts = x.stem.replace("Indisa_results_UNIFIED_", "")
+        debug = base_indisa / f"Indisa_debug_unified_{ts}.txt"
+        items_indisa.append({
+            "ts": ts,
+            "excel": x.name,
+            "debug": debug.name if debug.exists() else None,
+            "mtime": datetime.fromtimestamp(x.stat().st_mtime).strftime("%d-%m-%Y %H:%M")
+        })
+
     last_excel = session.pop("last_result_excel", None)
     last_debug = session.pop("last_result_debug", None)
     last_bank = session.pop("last_result_bank", None)
@@ -163,6 +182,7 @@ def results():
         "results.html",
         items_itau=items_itau,
         items_santander=items_sant,
+        items_indisa=items_indisa,
         last_excel=last_excel_name,
         last_debug=last_debug_name,
         last_bank=last_bank,
@@ -175,6 +195,8 @@ def download(bank: str, filename: str):
     bank_l = (bank or "itau").lower()
     if bank_l == "santander":
         base = BASE_DIR / "outputs" / "Santander" / "web"
+    elif bank_l == "indisa":
+        base = BASE_DIR / "outputs" / "Indisa" / "web"
     else:
         base = BASE_DIR / "outputs" / "Itau" / "web"
     file_path = (base / filename).resolve()

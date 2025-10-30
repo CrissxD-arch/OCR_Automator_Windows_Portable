@@ -23,9 +23,12 @@
         <label class="label">Selecciona PDF(s)</label>
         <input type="file" name="pdfs" accept="application/pdf" multiple>
 
-  <div class="label">Cliente/Banco</div>
-  <label class="checkbox"><input type="radio" name="bank" value="itau" {% if (selected_bank or 'itau') == 'itau' %}checked{% endif %}> Itaú</label>
-  <label class="checkbox"><input type="radio" name="bank" value="santander" {% if (selected_bank or 'itau') == 'santander' %}checked{% endif %}> Santander</label>
+        <div class="label" style="margin-top:12px;">Cliente</div>
+        <select name="bank" class="input" style="max-width:320px;">
+          <option value="itau" {% if (selected_bank or 'itau') == 'itau' %}selected{% endif %}>Itaú</option>
+          <option value="santander" {% if (selected_bank or 'itau') == 'santander' %}selected{% endif %}>Santander</option>
+          <option value="indisa" {% if (selected_bank or 'itau') == 'indisa' %}selected{% endif %}>Indisa (Cheques)</option>
+        </select>
 
         <label class="checkbox">
           <input type="checkbox" name="geocode"> Usar geocodificación (mejora dirección/comuna)
